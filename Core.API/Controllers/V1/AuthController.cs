@@ -16,9 +16,9 @@ public class AuthController : ControllerBase
         
     }
 
-    [HttpPost("Login")]
-    public IActionResult Login(LoginCredDTO)
-    {
+    // [HttpPost("Login")]
+    // public IActionResult Login(LoginCredDTO)
+    // {
         
-    }
+    // }
 }

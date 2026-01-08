@@ -1,0 +1,31 @@
+name: ARNO Cloud PRod Build and Test
+
+on:
+    push:
+        branches: ["main"]
+
+jobs:
+    build-and-test:
+        name: Build and Test Solution
+        runs-on: ubuntu-latest  # The "Virtual Machine" GitHub provides
+
+        steps:
+        # Step A: Download your code to the Virtual Machine
+        - uses: actions/checkout@v4
+
+        # Step B: Install .NET on the Virtual Machine
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v4
+          with:
+              dotnet-version: 9.0.x # Change this to your version (e.g., 6.0.x, 7.0.x)
+                    # Step C: Restore dependencies (nuget packages)
+        - name: Restore dependencies
+          run: dotnet restore
+
+        # Step D: Build the project to check for compile errors
+        - name: Build
+          run: dotnet build --no-restore
+
+        # Step E: Run the xUnit tests
+        - name: Test
+          run: dotnet test --no-build --verbosity normal
