@@ -1,0 +1,10 @@
+-- Set up new projects 
+
+-- Create new project 
+dotnet new classlib -n Auth.Service
+-- Add project to sln 
+dotnet sln add Auth.Service/Auth.Service.csproj
+-- Add project reference to another Project
+
+dotnet add Core.Api/Core.Api.csproj reference Auth.Service/Auth.Service.csproj
+dotnet add Auth.Service/Auth.Service.csproj reference Shared/Shared.csproj

@@ -1,0 +1,17 @@
+-- Integration Commands
+
+-- Install 
+dotnet add package Swashbuckle.AspNetCore
+
+
+-- Services
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+-- Middelware
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+

@@ -1,0 +1,2 @@
+-- Install Command
+dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
