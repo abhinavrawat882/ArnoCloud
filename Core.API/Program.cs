@@ -5,11 +5,21 @@ using Notes.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// --- 1. ADD CORS SERVICES ---
+// This tells .NET to allow requests from other domains (like your local machine)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()  // Allows request from any source (localhost, etc.)
+              .AllowAnyMethod()  // Allows GET, POST, PUT, DELETE, etc.
+              .AllowAnyHeader(); // Allows custom headers
+    });
+});
+
 // Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 
 builder.Services.AddNotesModule(new("234"));
 builder.Services.AddControllers();
@@ -17,36 +27,27 @@ builder.Services.AddControllers();
 // Api versioning Setup
 builder.Services.AddApiVersioning(options =>
 {
-    // If no version provided Assume default API is called 
-    options.AssumeDefaultVersionWhenUnspecified=true;
-    // Default api version
-    options.DefaultApiVersion= new(1,0);
-
-    // On responce report the versions of api present for clients to be aware about versions 
-    options.ReportApiVersions=true;
-    
-    // Strategy to read verisons 
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new(1, 0);
+    options.ReportApiVersions = true;
     options.ApiVersionReader = new UrlSegmentApiVersionReader();
-
 });
-
-
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-
-}
 
 app.UseHttpsRedirection();
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
+// --- 2. SWAGGER CONFIGURATION ---
+// I moved this OUTSIDE the 'if (IsDevelopment)' block.
+// Now Swagger will load even when deployed to Azure (which defaults to Production).
+app.UseSwagger();
+app.UseSwaggerUI();
+
+// --- 3. ENABLE CORS MIDDLEWARE ---
+// This must be placed AFTER UseHttpsRedirection and BEFORE MapControllers
+app.UseCors("AllowAll");
 
 var summaries = new[]
 {
@@ -55,7 +56,7 @@ var summaries = new[]
 
 app.MapGet("/weatherforecast", () =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
+    var forecast = Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (
             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
