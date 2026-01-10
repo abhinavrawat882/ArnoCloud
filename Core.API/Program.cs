@@ -24,6 +24,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddNotesModule(new("234"));
 builder.Services.AddControllers();
 
+builder.Services.Configure<JwtOption>(
+    builder.Configuration.GetSection("Jwt")
+);
+
 // Api versioning Setup
 builder.Services.AddApiVersioning(options =>
 {
