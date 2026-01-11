@@ -1,3 +1,7 @@
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
-public record JwtOption(string Key,string Issuer,string Audience);
+public record JwtOption{
+    public string Key{get; init;}
+    public string Issuer{get; init;}
+    public string Audience{get;init;}
+    }

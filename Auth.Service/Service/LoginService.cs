@@ -3,6 +3,7 @@ using Auth.Service.DTO;
 using Auth.Service.Entites;
 using Auth.Service.Helpers;
 using Auth.Service.Repository;
+using Microsoft.Extensions.Options;
 
 namespace Auth.Service.Service;
 
@@ -10,10 +11,10 @@ public class LoginService
 {
     private readonly UserRepo _userRepo;
     private readonly JwtOption _jwtOption;
-    public LoginService(UserRepo userRepo, JwtOption jwtOption)
+    public LoginService(UserRepo userRepo, IOptions<JwtOption> options)
     {
         _userRepo = userRepo;
-        _jwtOption = jwtOption;
+        _jwtOption = options.Value;
     }
     public async Task<LoginResponseDTO> Login(LoginCredDTO loginCred)
     {

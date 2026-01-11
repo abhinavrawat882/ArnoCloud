@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 // using Microsoft.EntityFrameworkCore.
 public static class AuthServiceExtention
 {
-    public static IServiceCollection AddNotesModule(this IServiceCollection services)//, IConfiguration configuration)
+    public static IServiceCollection AddAuthModule(this IServiceCollection services)//, IConfiguration configuration)
     {
 
         services.AddDbContext<UserDbContext>(options =>

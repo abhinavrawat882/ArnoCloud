@@ -22,7 +22,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddNotesModule(new("234"));
+builder.Services.AddAuthModule();
 builder.Services.AddControllers();
+
 
 builder.Services.Configure<JwtOption>(
     builder.Configuration.GetSection("Jwt")
