@@ -1,6 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using Auth.Service.DTO;
-using Auth.Service.Entites;
+using ArnoCloud.User.Data.Entities;
 using Auth.Service.Helpers;
 using Auth.Service.Repository;
 using Microsoft.Extensions.Options;

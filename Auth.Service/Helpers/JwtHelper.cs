@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Auth.Service.Entites;
+using ArnoCloud.User.Data.Entities;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Auth.Service.Helpers;

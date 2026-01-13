@@ -2,6 +2,9 @@ using Asp.Versioning;
 using Microsoft.Extensions.Options;
 using Notes.Configuration;
 using Notes.Service;
+using User.Service.Interfaces;
+using User.Service.Services;
+using Core.API.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +27,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddNotesModule(new("234"));
 builder.Services.AddAuthModule();
 builder.Services.AddControllers();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 
 builder.Services.Configure<JwtOption>(
@@ -44,6 +50,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
+app.UseExceptionHandler();
 
 // --- 2. SWAGGER CONFIGURATION ---
 // I moved this OUTSIDE the 'if (IsDevelopment)' block.

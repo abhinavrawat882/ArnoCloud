@@ -1,6 +1,6 @@
 using Microsoft.Identity.Client;
 
-namespace Auth.Service.Entites;
+namespace ArnoCloud.User.Data.Entities;
 
 public class Role
 {

@@ -1,7 +1,8 @@
-using Auth.Service.Entites;
+using UserEntity = ArnoCloud.User.Data.Entities.User;
+using ArnoCloud.User.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Auth.Service.Data;
+namespace ArnoCloud.User.Data.Data;
 
 public class UserDbContext: DbContext
 {
@@ -10,7 +11,7 @@ public class UserDbContext: DbContext
         
     }
 
-    public DbSet<User> Users => Set<User>();
+    public DbSet<UserEntity> Users => Set<UserEntity>();
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<UserRole> UserRoles => Set<UserRole>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)

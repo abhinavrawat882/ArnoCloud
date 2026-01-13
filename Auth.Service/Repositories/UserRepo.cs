@@ -1,6 +1,6 @@
 using System.Security.Cryptography.X509Certificates;
-using Auth.Service.Data;
-using Auth.Service.Entites;
+using ArnoCloud.User.Data.Data;
+using ArnoCloud.User.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Auth.Service.Repository;
