@@ -27,7 +27,13 @@ public class ToDoService : IToDoService
         throw new NotImplementedException();
     }
 
-    public Task<bool> UpdateItemAsync(int id)
+    public Task<List<ToDoListDTO>> GetListAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+
+    public Task<ToDoListDTO> UpdateItemAsync(ToDoListDTO toDoListDTO)
     {
         throw new NotImplementedException();
     }

@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Notes.Service\Notes.Service.csproj" />
+    <ProjectReference Include="..\ToDoList.Service\ToDoList.Service.csproj" />
     <ProjectReference Include="..\Auth.Service\Auth.Service.csproj" />
     <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>

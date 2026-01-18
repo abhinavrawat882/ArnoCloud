@@ -218,9 +218,95 @@ public class ToDoServiceTest
 
     }
 
+    [Fact]
+    public async Task AddToDoItemAsync_RepoThrows_ShouldPropagateException()
+    {
+        // Arrange
+        var input = new ToDoListDTO { Id = 0, Body = "Valid Task", State = TodoState.Active };
+        var repoException = new Exception("Database disk full");
+
+        _mockRepo.Setup(r => r.AddToDoListItemAsync(It.IsAny<ToDoListDTO>()))
+                .ThrowsAsync(repoException);
+
+        // Act & Assert
+        // We verify that the service throws the EXACT same exception the repo threw
+        var thrownException = await Assert.ThrowsAsync<Exception>(() => 
+            _sut.AddToDoItemAsync(input));
+
+        Assert.Equal("Database disk full", thrownException.Message);
+    }
 
     /// Update TO DO List 
     
     /// <summary>
-    /// Test 1:  
+    /// Test 1: Happy case : Correct input 
+    /// 
+    /// Verify Data Sent to the Repo Correctly
+    [Fact]
+    public async Task UpdateToDoItemAsync_ValidInputs_ShouldReturnUpdatedDTO()
+    {
+        // Assemble
+
+        var input = new ToDoListDTO()
+        {
+            Id=10,
+            Body="Test Item",
+            State = TodoState.Active
+        };
+
+       _mockRepo.Setup(r => r.UpdateItemAsync(It.IsAny<ToDoListDTO>()))
+         .ReturnsAsync((ToDoListDTO incoming) => {
+             return incoming;
+         });
+        var updatedEntity = await _sut.UpdateItemAsync(input);
+        
+
+        // Assersions
+
+        Assert.Equal(input.Id,updatedEntity.Id);
+        Assert.Equal(input.Body,updatedEntity.Body);
+        Assert.Equal(input.State,updatedEntity.State);
+
+        _mockRepo.Verify(r=>
+            r.UpdateItemAsync(It.Is<ToDoListDTO>(data =>
+                data.Id==10 &&
+                data.Body=="Test Item" && 
+                data.State == TodoState.Active
+            ))
+            ,Times.Once()
+        );
+    }
+    /// <summary>
+    /// Test 2: Sad case : Invalid Inputs 
+    /// 
+    /// Verify:
+    ///     1. Service Validates Data 
+    ///     2. Service throws correct exception
+    [Theory]
+    [InlineData(0,"123",TodoState.Active)] // Invalid ID for updating 
+    [InlineData(-1,"123",TodoState.Active)] 
+    [InlineData(0,"",TodoState.Active)] // No Body 
+
+    public async Task UpdateToDoItemAsync_InvalidInputs_ShouldThrowCorrectError(int id, string body,TodoState state)
+    {
+        // Given
+        var input = new ToDoListDTO()
+        {
+            Id = id,
+            Body = body,
+            State = state
+        };
+
+        // When
+        await Assert.ThrowsAsync<ArgumentException>(() => _sut.UpdateItemAsync(input));
+        // Then
+        _mockRepo.Verify(r => r.UpdateItemAsync(It.IsAny<ToDoListDTO>()), Times.Never());
+
+    }
+
+    // Delete 
+
+    ///<summary>
+    /// 
+    /// Test 1. 
 }
