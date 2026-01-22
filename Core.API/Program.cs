@@ -22,6 +22,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddNotesModule(new("234"));
+builder.Services.AddToDoListModule();
 builder.Services.AddControllers();
 
 // Api versioning Setup

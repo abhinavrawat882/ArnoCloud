@@ -11,4 +11,7 @@ dotnet new xunit -n Notes.Service.Tests
 dotnet sln add Notes.Service.Tests
 
 # Install the Mocking Library (Moq) We need Moq to fake the database/repository efficiently.
+
+dotnet add package FluentAssertions
+
 dotnet add package Moq
