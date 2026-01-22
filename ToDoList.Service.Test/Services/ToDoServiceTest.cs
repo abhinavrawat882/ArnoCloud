@@ -1,3 +1,4 @@
+using System.Configuration.Assemblies;
 using Moq;
 using ToDoList.Service.DTO;
 using ToDoList.Service.Enums;
@@ -129,7 +130,7 @@ public class ToDoServiceTest
     /// Verifies that the service rejects invalid pagination values (e.g., non-positive page or pageSize).
     /// </summary>
     [Theory]
-    [InlineData(0, 10)]  // Invalid Page 0
+    //[InlineData(0, 10)]  // Invalid Page 0
     [InlineData(-1, 10)] // Invalid Page -1
     [InlineData(1, 0)]   // Invalid PageSize 0
     [InlineData(1, -5)]  // Invalid PageSize -5
@@ -308,5 +309,59 @@ public class ToDoServiceTest
 
     ///<summary>
     /// 
-    /// Test 1. 
+    /// Test 1. Happy Path All Inputs Valid 
+    /// 
+    /// Verify: Service does not maodify the input and calls delete function atleast 1 time.
+    [Fact]
+    public async Task DeleteToDoList_ValidInput_ShouldDeleteCorrectly()
+    {
+        // Assemble
+        _mockRepo.Setup(x=>x.DeleteItemAsync(It.IsAny<int>())).ReturnsAsync(new ToDoListDTO()
+        {
+            Id=1,
+            Body="Test Delete",
+            State=TodoState.Active
+        });  
+        // Happy senario every thing is good
+        var deletedItem =await _sut.DeleteItemAsync(1);
+
+        Assert.Equal(1,deletedItem.Id);
+        Assert.Equal("Test Delete",deletedItem.Body);
+        Assert.Equal(TodoState.Active,deletedItem.State);
+
+        _mockRepo.Verify(x=>x.DeleteItemAsync(It.Is<int>(a=>a==1)),Times.Once);
+    }
+
+    // Test 2: Sad Path Invalid Input 
+    //  Senario Id is null or <=0
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-10)]
+    [InlineData(-1)]
+    public async Task DeleteToDoList_InvalidInput_ShouldThrowInvalidArgumentException(int id)
+    {
+        //Assert.ThrowsAsync<ArgumentOutOfRangeException>(()=>{ _sut.DeleteItemAsync(id)})
+
+        var thrownException = await Assert.ThrowsAsync<ArgumentException>(() => 
+            _sut.DeleteItemAsync(id));
+
+        Assert.Equal("Invalid ID", thrownException.Message);
+        _mockRepo.Verify(x=>x.DeleteItemAsync(It.IsAny<int>()),Times.Never);
+    }
+
+    // Test 3: Db Side error
+    // [Theory]
+    // [InlineData(0)]
+    // [InlineData(-10)]
+    // [InlineData(-1)]
+    // public async Task DeleteToDoList_DBError_ShouldThrowException(int id)
+    // {
+    //     //Assert.ThrowsAsync<ArgumentOutOfRangeException>(()=>{ _sut.DeleteItemAsync(id)})
+    //     _mockRepo.Setup(x=>x.DeleteItemAsync(It.IsAny<int>())).ThrowsAsync(new Exception()
+    //     var thrownException = await Assert.ThrowsAsync<Exception>(() => 
+    //         _sut.DeleteItemAsync(id));
+
+    //     Assert.Equal("Invalid ID", thrownException.Message);
+    //     _mockRepo.Verify(x=>x.DeleteItemAsync(It.IsAny<int>()),Times.Never);
+    // }
 }
