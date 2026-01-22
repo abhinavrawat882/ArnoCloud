@@ -1,4 +1,7 @@
+using System.Runtime.CompilerServices;
+using FluentValidation;
 using ToDoList.Service.DTO;
+using ToDoList.Service.Enums;
 using ToDoList.Service.Repository;
 
 namespace ToDoList.Service.Service;
@@ -12,29 +15,29 @@ public class ToDoService : IToDoService
         _repository = repository;
     }
 
-    public Task<int> AddToDoItemAsync(ToDoListDTO toDoListDTO)
+    public async Task<int> AddToDoItemAsync(ToDoListDTO toDoListDTO)
+    {
+       if(toDoListDTO.Id!=0||string.IsNullOrEmpty(toDoListDTO.Body) || toDoListDTO.State!=TodoState.Active) throw new ArgumentException();
+       return await _repository.AddToDoListItemAsync(toDoListDTO);
+    }
+
+    public async Task<ToDoListDTO> DeleteItemAsync(int id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<bool> DeleteItemAsync(int id)
+    public async Task<List<ToDoListDTO>> GetListAsync(ToDoListFilter todolistfilter)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
+        if(todolistfilter==null) throw new ArgumentNullException("Filters can not be null");
+        ToDoFilterValidator validator = new();
+        validator.ValidateAndThrow(todolistfilter);
+
+        return await _repository.GetToDOListAsync(todolistfilter);
     }
-
-    public Task<List<ToDoListDTO>> GetListAsync(ToDoListFilter todolistfilter)
+    public async Task<ToDoListDTO> UpdateItemAsync(ToDoListDTO toDoListDTO)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<List<ToDoListDTO>> GetListAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-
-    public Task<ToDoListDTO> UpdateItemAsync(ToDoListDTO toDoListDTO)
-    {
-        throw new NotImplementedException();
+        if(toDoListDTO.Id<=0 || string.IsNullOrEmpty(toDoListDTO.Body)) throw new ArgumentException("Invalid body or id");
+        return await _repository.UpdateItemAsync(toDoListDTO);
     }
 }
