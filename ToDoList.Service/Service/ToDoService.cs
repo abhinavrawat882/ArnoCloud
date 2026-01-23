@@ -23,7 +23,9 @@ public class ToDoService : IToDoService
 
     public async Task<ToDoListDTO> DeleteItemAsync(int id)
     {
-        throw new NotImplementedException();
+        if(id<=0) throw new ArgumentException("Invalid ID");
+         var res = await _repository.DeleteItemAsync(id);
+         return res;
     }
 
     public async Task<List<ToDoListDTO>> GetListAsync(ToDoListFilter todolistfilter)
