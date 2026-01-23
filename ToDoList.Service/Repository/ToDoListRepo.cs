@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using ToDoList.Service.Data;
 using ToDoList.Service.DTO;
 using ToDoList.Service.Entity;
@@ -27,9 +29,18 @@ public class ToDoListRepo : IToDoListRepo
             return entity.Id;
     }
 
-    public Task<List<ToDoListDTO>> GetToDOListAsync(ToDoListFilter filter)
+    public async Task<List<ToDoListDTO>> GetToDOListAsync(ToDoListFilter filter)
     {
-        throw new NotImplementedException();
+        return await _toDoListDbContext.todolists.AsNoTracking().Where(x=>x.State==filter.State)
+        .Skip(filter.page)
+        .Take(filter.pageSize)
+        .Select(x=>new ToDoListDTO()
+        {
+            Id=x.Id,
+            State=x.State,
+            Body=x.Body
+        })
+        .ToListAsync();
     }
 
     public Task<ToDoListDTO> GetToDOListItemAsync(int id)
@@ -37,13 +48,27 @@ public class ToDoListRepo : IToDoListRepo
         throw new NotImplementedException();
     }
 
-    public Task<ToDoListDTO> UpdateItemAsync(ToDoListDTO toDoListDTO)
+    public async Task<ToDoListDTO> UpdateItemAsync(ToDoListDTO toDoListDTO)
     {
-        throw new NotImplementedException();
+        var toDoItem = await _toDoListDbContext.todolists.Where(x=>x.Id==toDoListDTO.Id).FirstOrDefaultAsync();
+        if(toDoItem==null) throw new KeyNotFoundException("No Such Item Found");
+        toDoItem.Body=toDoListDTO.Body;
+        toDoItem.State=toDoListDTO.State;
+        return toDoListDTO;
     }
 
-    Task<ToDoListDTO> IToDoListRepo.DeleteItemAsync(int id)
+    public async Task<ToDoListDTO> DeleteItemAsync(int id)
     {
-        throw new NotImplementedException();
+        var toDoItem = await _toDoListDbContext.todolists.Where(x=>x.Id==id).FirstOrDefaultAsync();
+        if(toDoItem==null) throw new KeyNotFoundException("No Such Item Found");
+        var ret= new ToDoListDTO()
+        {
+            Id=toDoItem.Id,
+            Body=toDoItem.Body,
+            State=toDoItem.State
+        };
+        
+        _toDoListDbContext.Remove(toDoItem);
+        return ret;
     }
 }
