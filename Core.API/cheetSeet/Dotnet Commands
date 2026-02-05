@@ -1,7 +1,11 @@
+-- Add new SLN
+dotnet new sln -n MyApp
+
 -- Set up new projects 
 
 -- Create new project 
 dotnet new classlib -n Auth.Service
+dotnet new webapi -n Auth.Service
 -- Add project to sln 
 dotnet sln add Auth.Service/Auth.Service.csproj
 -- Add project reference to another Project
