@@ -7,7 +7,7 @@ using ToDoList.Service.Repository;
 using ToDoList.Service.Service;
 using Xunit;
 
-namespace ToDoList.Service.Test.Services;
+namespace ToDoList.Service.Test.Services;n;
 
 public class ToDoServiceTest
 {
@@ -131,7 +131,7 @@ public class ToDoServiceTest
     /// Verifies that the service rejects invalid pagination values (e.g., non-positive page or pageSize).
     /// </summary>
     [Theory]
-    //[InlineData(0, 10)]  // Invalid Page 0
+    [InlineData(0, 10)]  // Invalid Page 0
     [InlineData(-1, 10)] // Invalid Page -1
     [InlineData(1, 0)]   // Invalid PageSize 0
     [InlineData(1, -5)]  // Invalid PageSize -5
