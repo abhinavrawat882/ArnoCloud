@@ -37,9 +37,15 @@ public class ToDoService : IToDoService
 
         return await _repository.GetToDOListAsync(todolistfilter);
     }
+    
     public async Task<ToDoListDTO> UpdateItemAsync(ToDoListDTO toDoListDTO)
     {
         if(toDoListDTO.Id<=0 || string.IsNullOrEmpty(toDoListDTO.Body)) throw new ArgumentException("Invalid body or id");
         return await _repository.UpdateItemAsync(toDoListDTO);
     }
+    public Task<ToDoListDTO> GetTodoItemAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
 }

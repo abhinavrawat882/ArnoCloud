@@ -1,4 +1,5 @@
 using System.Configuration.Assemblies;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel.Utilities;
 using Moq;
 using ToDoList.Service.DTO;
 using ToDoList.Service.Enums;
@@ -364,4 +365,31 @@ public class ToDoServiceTest
     //     Assert.Equal("Invalid ID", thrownException.Message);
     //     _mockRepo.Verify(x=>x.DeleteItemAsync(It.IsAny<int>()),Times.Never);
     // }
+
+
+    /// Test :  GEt To Do list Item
+    /// Happy path 
+    [Fact]
+    public async Task GetToDoListItem_ValidInput_returnData()
+    {
+        // Given
+        _mockRepo.Setup(x=>x.GetToDOListItemAsync(It.IsAny<int>())).ReturnsAsync(new ToDoListDTO()
+        {
+            Id=1,
+            Body="123",
+            State=TodoState.Archived
+        });
+        // When
+        var res = await _sut.GetTodoItemAsync(1);
+        // Then
+        Assert.Equal(1,res.Id);
+        Assert.Equal("123",res.Body);
+        Assert.Equal(TodoState.Archived,res.State);
+        _mockRepo.Verify(x=>x.GetToDOListItemAsync(It.IsAny<int>()),Times.Once);
+
+    }
+    // Sad Path
+    
 }
+
+
