@@ -30,8 +30,8 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 
 # Expose port (adjust if your API uses a different port)
-EXPOSE 80
-EXPOSE 443
+EXPOSE 5001
+EXPOSE 7232
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
