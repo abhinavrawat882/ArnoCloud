@@ -1,0 +1,19 @@
+# Exclude node_modules directory
+node_modules/
+
+# Exclude Git files
+.git/
+.gitignore
+
+# Exclude build directories
+bin/
+obj/
+
+# Exclude IDE configurations
+.vs/
+.vscode/
+
+# Exclude other development artifacts
+*.log
+*.tmp
+*.bak
