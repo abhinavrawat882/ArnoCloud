@@ -2,6 +2,7 @@ using Asp.Versioning;
 using Microsoft.Extensions.Options;
 using Notes.Configuration;
 using Notes.Service;
+using Workspace.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddNotesModule(new("234"));
 builder.Services.AddToDoListModule();
+builder.Services.AddWorkspaceModule();
 builder.Services.AddControllers();
 
 // Api versioning Setup
