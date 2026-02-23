@@ -8,6 +8,10 @@ COPY ["Core.API/Core.API.csproj", "Core.API/"]
 COPY ["Auth.Service/Auth.Service.csproj", "Auth.Service/"]
 COPY ["Notes.Service/Notes.Service.csproj", "Notes.Service/"]
 COPY ["Notes.Service.Tests/Notes.Service.Tests.csproj", "Notes.Service.Tests/"]
+COPY ["ToDoList.Service/ToDoList.Service.csproj", "ToDoList.Service/"]
+COPY ["ToDoList.Service.Test/ToDoList.Service.Test.csproj", "ToDoList.Service.Test/"]
+COPY ["Workspace.Service/Workspace.Service.csproj", "Workspace.Service/"]
+COPY ["Workspace.Service.Test/Workspace.Service.Test.csproj", "Workspace.Service.Test/"]
 COPY ["Shared/Shared.csproj", "Shared/"]
 
 # Restore NuGet packages
