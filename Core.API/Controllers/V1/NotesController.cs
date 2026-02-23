@@ -8,7 +8,7 @@ namespace Core.API.Controllers.V1;
 
 [ApiController]
 [ApiVersion("1.0")]
-[Route("api/v{version:apiVersion}/products")]
+[Route("api/v{version:apiVersion}/note")]
 public class NotesController : ControllerBase
 {   
     private readonly NoteService _noteService;
