@@ -5,7 +5,6 @@ WORKDIR /src
 # Copy solution and project files
 COPY ["Arnocloud.sln", "."]
 COPY ["Core.API/Core.API.csproj", "Core.API/"]
-COPY ["Auth.Service/Auth.Service.csproj", "Auth.Service/"]
 COPY ["Notes.Service/Notes.Service.csproj", "Notes.Service/"]
 COPY ["Notes.Service.Tests/Notes.Service.Tests.csproj", "Notes.Service.Tests/"]
 COPY ["ToDoList.Service/ToDoList.Service.csproj", "ToDoList.Service/"]
