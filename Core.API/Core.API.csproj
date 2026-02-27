@@ -21,6 +21,7 @@
     <ProjectReference Include="..\Auth.Service\Auth.Service.csproj" />
     <ProjectReference Include="..\Shared\Shared.csproj" />
     <ProjectReference Include="..\Workspace.Service\Workspace.Service.csproj" />
+    <ProjectReference Include="..\ActionVault.Service\ActionVault.Service.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,6 +13,7 @@ COPY ["ToDoList.Service.Test/ToDoList.Service.Test.csproj", "ToDoList.Service.Te
 COPY ["Workspace.Service/Workspace.Service.csproj", "Workspace.Service/"]
 COPY ["Workspace.Service.Test/Workspace.Service.Test.csproj", "Workspace.Service.Test/"]
 COPY ["Shared/Shared.csproj", "Shared/"]
+COPY ["ActionVault.Service/ActionVault.Service.csproj", "ActionVault.Service/"]
 
 # Restore NuGet packages
 RUN dotnet restore "Arnocloud.sln"
